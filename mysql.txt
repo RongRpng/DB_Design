@@ -1,0 +1,136 @@
+# rpm 安装5.7数据库
+#
+# wget  https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.30-1.el7.x86_64.rpm-bundle.tar
+#
+# 查看系统是否已经安装了mysql,一般centos7默认安装了一个数据库，需要把它卸载了。
+# rpm -qa|grep mariadb
+# 删除自带的
+# rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
+#
+# 安装依赖
+# yum install libaio
+# yum install perl
+# yum install net-tools
+# yum install numactl
+#
+#
+# 解压下载rpm包
+# tar -xvf mysql-5.7.30-1.el7.x86_64.rpm-bundle.tar
+#
+# 安装
+# rpm -ivh mysql-community-common-5.7.30-1.el7.x86_64.rpm
+# rpm -ivh mysql-community-libs-5.7.30-1.el7.x86_64.rpm
+# rpm -ivh mysql-community-client-5.7.30-1.el7.x86_64.rpm
+# rpm -ivh mysql-community-server-5.7.30-1.el7.x86_64.rpm
+#
+# 查看服务状态
+# service mysqld status
+#
+# 启动服务
+# service mysqld start
+# 查看密码
+# grep password /var/log/mysqld.log
+# 登录
+# mysql -uroot –p
+# 修改密码
+# set password = password("Mysql@123456");
+#
+# 查看密码策略
+# show variables like 'validate_password%';
+#
+# 添加远程权限
+# GRANT ALL PRIVILEGES ON *.* TO 'sun'@'%' IDENTIFIED BY 'Mysql@123456' WITH GRANT OPTION;
+#
+# 查看字符
+# show variables like 'chara%';
+# 修改配置文件
+# etc/my.conf
+# [client]
+# default-character-set=utf8
+# 在[mysqld]下面加
+# default-storage-engine=INNODB
+# character-set-server=utf8
+# collation-server=utf8_general_ci
+#
+# 重启服务使权限生效
+#  service mysqld restart
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# yum安装5.7数据库
+#
+# wget  http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+#
+# yum -y install mysql57-community-release-el7-10.noarch.rpm
+#
+# yum -y install mysql-community-server
+#
+# 查看服务状态
+# service mysqld status
+#
+# 启动服务
+# service mysqld start
+# 查看密码
+# grep password /var/log/mysqld.log
+# 登录
+# mysql -uroot –p
+# 修改密码
+# set password = password("Mysql@123456");
+#
+# 查看密码策略
+# show variables like 'validate_password%';
+#
+#
+# 添加远程权限
+# GRANT ALL PRIVILEGES ON *.* TO 'sun'@'%' IDENTIFIED BY 'Mysql@123456' WITH GRANT OPTION;
+#
+# 查看字符
+# show variables like 'chara%';
+#
+# 修改配置文件
+# vim /etc/my.cnf
+# [client]
+# default-character-set=utf8
+# 在[mysqld]下面加
+# default-storage-engine=INNODB
+# character-set-server=utf8
+# collation-server=utf8_general_ci
+#
+# 重启服务使权限生效
+#  service mysqld restart
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# [client]
+# character-set=utf8
+#
+# [[mysqld]
+#
+# socket = /var/lib/mysql/mysql.sock
+# datadir=/var/lib/mysql
+# pid-file = /var/run/mysqld/mysql.pid
+# log_error = /var/log/mysql/mysql-error.log
+#
+# default-storage-engine=INNODB
+# character-set-server=utf8
+# collation-server=utf8_general_ci
+#
+#
+#
+#
+#

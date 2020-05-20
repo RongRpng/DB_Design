@@ -1,0 +1,63 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    <!--开启扫描-->
+    <!--&lt;!&ndash;    使用注解注入，base-pakage路径下所有用到注解的都会被装配进容器里&ndash;&gt;-->
+    <!--    <context:component-scan base-pakage="dao"/>-->
+
+    <!--加载外部配置文件，方便环境切换直接换配置文件就行-->
+    <context:property-placeholder location = "classpath:properties/db.properties"/>
+
+
+    <!--    call无参构造的test初始化-->
+    <!--    <bean id = "test" class = "dao.Test"/>-->
+    <!--    <bean id = "test1" class = "dao.Test"/>-->
+
+    <!--set注入：要求Test类有set方法-->
+    <!--    把一个bean放入到容器里，就可以从容器中取用类，name写类的小写，class写类的地址-->
+    <bean id = "test" class = "dao.Test">
+    <!--    调用test的有参的初始化类，可以直接为属性赋值，或ref=dataSource把其他类赋值进去-->
+        <property name = "name" value = "小名"/>
+    </bean>
+
+    <!--构造注入-->
+<!--        <bean id = "test" class = "dao.Test">-->
+<!--            <constructor-arg name= "name" value = "小名"/>-->
+<!--        </bean>-->
+
+
+
+
+<!--    数据库连接池，DataSource就是一个类，通过set方法把属性给注入进去-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+<!--        <property name = "driverClassName" value="com.mysql.jdbc.Driver"/>-->
+<!--        <property name="url" value="jdbc:mysql://127.0.0.1:3306/Java_task1?characterEncoding=UTF-8"/>-->
+<!--        <property name="username" value="root"/>-->
+<!--        <property name="password" value="pass"/>-->
+    </bean>
+
+<!--    spring和mybatis整合-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+<!--        自动扫描mapping.xml文件，这里是调用usermapper.xml-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--        配置sqlSessionFactoryBean的名称-->
+        <property name="basePackage" value="dao"/>
+<!--        "sqlSessionFactory"放进去-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+
+
+
+</beans>
+
